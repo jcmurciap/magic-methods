@@ -2,10 +2,12 @@
 
 namespace Magic\Magic;
 
-class User extends Model
+class User
 {
-    public function getFullNameAttribute($value)
+    public function __construct(array $attributes = [])
     {
-        return $this->first_name .' '.$this->last_name;
+        foreach ($attributes as $key => $value) {
+            $this->$key = $value; // (1era vuelta) $this->first_name = $value
+        }
     }
 }
