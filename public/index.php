@@ -5,21 +5,16 @@ use Magic\Magic\User;
 
 require '../vendor/autoload.php';
 
-$user = new User([
-    "full_name" => "Claudia Guarnizo"
+$user = new User();
+$user->fill([
+    "first_name" => "Camilo",
+    "last_name" => "Murcia",
 ]);
+$user->nickname = "dev";
+unset($user->nickname);
 
-$user2 = new User([
-    "first_name" => "Patricia",
-    "last_name" => "Loaiza",
-]);
+echo "<p>Bienvenido {$user->first_name} {$user->last_name}</p>";
 
-/**
- * MALA PRÁCTICA
- * crear propiedades dinámicamente si no existe
- * sin embargo PHP lo permite 
- * */ 
-//$user->full_name = "Camilo Pimentel";
-
-echo "<p>Bienvenido {$user->full_name}</p>";
-echo "<p>Bienvenido {$user2->first_name} {$user2->last_name}</p>";
+if (isset($user->nickname)) {
+    echo "<p>Nickname: {$user->nickname}</p>";
+}
