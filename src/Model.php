@@ -2,51 +2,76 @@
 
 namespace Magic\Magic;
 
-class Model
+abstract class Model
 {
     protected $attributes = [];
-
-    public function __construct(array $attributes = array())
+    
+    public function __construct(array $attributes = [])
     {
-        $this->attributes = $attributes;
+        $this->fill($attributes);
     }
 
-    public function setAttribute($name, $value)
+    public function fill(array $attributes=[])
+    {
+        return $this->attributes = $attributes;
+    }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    // Buena práctica: Extraer la lógica del metodo magico.
+    protected function getAttribute($name) 
     {   
-        $customerSetter = 'set'.Str::studly($name).'Attribute';
-
-        if (method_exists($this, $customerSetter)) {
-            return $this->$customerSetter($value);
-        }
-
-        $this->attributes[$name] = $value;
-
-        return $this;
-    }
-
-    public function getAttribute($name)
-    {
-        $customGetter = 'get'.Str::studly($name).'Attribute';
-
-        $value = array_key_exists($name, $this->attributes)
-            ? $this->attributes[$name]
-            : null;
-
-        if (method_exists($this, $customGetter)) {
-            return $this->$customGetter($value);
-        }
+        $value = $this->getAttributeValue($name);
+        
+        if ($this->hasGetMutator($name)) {
+            return $this->mutateAttribute($name, $value);
+        } 
         
         return $value;
     }
 
-    public function __set($name, $value)
-    {   
-        $this->setAttribute($name, $value);
+    protected function mutateAttribute($name, $value)
+    {
+        return $this->{'get'.Str::studly($name).'Attribute'}($value);
     }
 
-    public function __get($name)
+    protected function hasGetMutator($name)
+    {
+        return method_exists($this, 'get'.Str::studly($name).'Attribute');
+    }
+
+    public function getAttributeValue($name)
+    {   
+        if (array_key_exists($name, $this->attributes))  {
+            return $this->attributes[$name];
+        }
+    }
+
+    protected function setAttribute($name, $value)
+    {
+        $this->attributes[$name]=$value;
+    }
+    
+    public function __get($name) // $name es una propiedad no definida q estamos llamando
     {
         return $this->getAttribute($name);
     }
-}
 
+    public function __set($name,  $value)
+    {
+        return $this->setAttribute($name,  $value);
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->attributes[$name]);
+    }
+
+    public function __unset($name)
+    {
+        unset($this->attributes[$name]);
+    }
+}

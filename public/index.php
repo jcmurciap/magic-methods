@@ -5,8 +5,7 @@ use Magic\Magic\User;
 
 require '../vendor/autoload.php';
 
-$user = new User();
-$user->fill([
+$user = new User([
     "first_name" => "Camilo",
     "last_name" => "Murcia",
 ]);
