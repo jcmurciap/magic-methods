@@ -11,6 +11,7 @@ class HtmlNode
     public function __construct($tag, $content=null, $attributes=[])
     {
         $this->tag = $tag;
+        $this->content = $content;
         $this->attributes = $attributes;
     }
 
@@ -21,7 +22,14 @@ class HtmlNode
         return $this; 
     }
     
-    
+    public static function __callStatic($method, array $arguments = [])
+    {
+        $content = isset($arguments[0]) ? $arguments[0] : null;
+        $attributes = isset($arguments[1]) ? $arguments[1] : [];
+        
+        return new HtmlNode($method, $content, $attributes);
+    }
+
     public function render()
     {
         $result = "<{$this->tag} {$this->renderAttributes()}>";

@@ -4,8 +4,9 @@ namespace Magic\Magic;
 
 require '../vendor/autoload.php';
 
-$node = (new HtmlNode('textarea', 'Juan'))
-    ->name('content');
+$node = HtmlNode::textarea('Juan')
+    ->name('content')
+    ->id('contenido');
 
 echo $node->render();
  
