@@ -30,6 +30,12 @@ class HtmlNode
         return new HtmlNode($method, $content, $attributes);
     }
 
+    // Convierte un objeto en una cadena
+    public function __toString() // NO DEBE lanzar exepciones
+    {
+        return $this->render();
+    }
+
     public function render()
     {
         $result = "<{$this->tag} {$this->renderAttributes()}>";

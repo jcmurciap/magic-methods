@@ -8,5 +8,5 @@ $node = HtmlNode::textarea('Juan')
     ->name('content')
     ->id('contenido');
 
-echo $node->render();
+echo $node;
  
