@@ -30,10 +30,27 @@ class HtmlNode
         return new HtmlNode($method, $content, $attributes);
     }
 
+    // Llamar a un objeto como un metodo  
+    public function __invoke($name, $default=null)
+    {
+        return $this->get($name, $default);
+    }
+
     // Convierte un objeto en una cadena
     public function __toString() // NO DEBE lanzar exepciones
     {
         return $this->render();
+    }
+
+    // Obtiene un atributo de un objeto
+    public function get($name, $default=null)
+    {
+        /* Equivalent
+        * return isset($this->attributes[$name])
+        *   ? $this->attributes[$name]
+        *   : null;
+        */
+        return $this->attributes[$name] ?? $default;
     }
 
     public function render()

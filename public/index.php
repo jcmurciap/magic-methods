@@ -8,5 +8,6 @@ $node = HtmlNode::textarea('Juan')
     ->name('content')
     ->id('contenido');
 
-echo $node;
- 
+var_dump($node('id'), $node('div'));
+exit();
+
