@@ -1,13 +1,11 @@
 <?php
 
 namespace Magic\Magic;
-
 require '../vendor/autoload.php';
 
-$node = HtmlNode::textarea('Juan')
-    ->name('content')
-    ->id('contenido');
 
-var_dump($node('id'), $node('div'));
-exit();
+$user = new User(['name' => 'Claudia']);
 
+$result = serialize($user);
+
+file_put_contents('../storage/user.txt', $result);
