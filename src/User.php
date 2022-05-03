@@ -18,7 +18,7 @@ class User extends Model
     {
         $this->lunch = $lunch;
     }
-
+ 
     public function eat()
     {
         /**
@@ -32,5 +32,12 @@ class User extends Model
         
         // No deberia usarse 'echo' dentro de la clase.
         echo "<p>{$this->name} almuerza {$this->lunch->shift()}</p>";
+    }
+
+    public function eatMeal()
+    {
+        foreach ($this->lunch as $food) {
+            echo "<p>{$this->name} eats {$food}</p>";            
+        }
     }
 }

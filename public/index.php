@@ -8,22 +8,11 @@ $gordon = new User(['name' => 'Gordon']);
 //daughters
 $joanie = new User(['name' => 'Joanie']);
 
-$haley = new User(['name' => 'Haley']);
-
-$lunchBox = new LunchBox(['Sandwich']);
-$lunchBox2 = clone $lunchBox;
-
-// Paso por referencia
-// $lunchBox = new LunchBox(['Sandwich','Manzana']);
-// $joanie->setLunch($lunchBox);
-// $haley->setLunch($lunchBox);
+$lunchBox = new LunchBox(['Sandwich','Papas','Jugo de naranja','Manzana']);
 
 // Paso por valor
-$joanie->setLunch(clone $lunchBox);
-$haley->setLunch($lunchBox2);
+$joanie->setLunch($lunchBox);
 
 // School
-$haley->eat();
-$joanie->eat();
+$joanie->eatMeal();
 
-var_dump($lunchBox,$lunchBox2);
