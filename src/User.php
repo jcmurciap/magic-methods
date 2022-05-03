@@ -4,25 +4,33 @@ namespace Magic\Magic;
 
 class User extends Model
 {
-    public function __toString()
-    {
-        return $this->name;
-    }
+    protected $lunch;
 
-    // se llama cada vez que un objeto de serialice
-    public function __sleep()
+    public function __construct(array $attributes = [])
     {
-        // attributes quiero serializar y dbPassword,no
-        return ['attributes', 'dbPassword'];
-    }
+        parent::__construct($attributes);
 
-    public function __wakeup()
-    {
-        $this->attributes['name'] = strtoupper($this->attributes['name']);
+        // NO se pasa parametro a la clase para que retorne un objeto nulo
+        $this->lunch = new LunchBox();
     }
     
-    // public function getFirstNameAttribute($value)
-    // {
-    //     return strtoupper($value);
-    // }
+    public function setLunch(LunchBox $lunch)
+    {
+        $this->lunch = $lunch;
+    }
+
+    public function eat()
+    {
+        /**
+         * Buena practica.
+         * La exepcion quede indentada y no el cuerpo del metodo
+        */
+        if($this->lunch->isEmpty()) {
+            throw new \Exception("{$this->name} no tiene nada para comer");
+        }
+
+        
+        // No deberia usarse 'echo' dentro de la clase.
+        echo "<p>{$this->name} almuerza {$this->lunch->shift()}</p>";
+    }
 }
