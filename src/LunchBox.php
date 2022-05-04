@@ -2,7 +2,7 @@
 
 namespace Magic\Magic;
 
-class LunchBox implements \Iterator
+class LunchBox implements \IteratorAggregate, \Countable
 {
     protected $food = [];
     protected $original = true;
@@ -32,38 +32,13 @@ class LunchBox implements \Iterator
         return $this->food;
     }
 
-    public function current()
+    public function getIterator()
     {
-        $var = current($this->food);
-        echo "<p>actual: $var</p>";
-        return $var;
+        return new \ArrayIterator($this->food);
     }
-
-    public function rewind():void
+    
+    public function count()
     {
-        echo "<p>rebobinando</p>";
-        reset($this->food);
-    }
-
-    public function key()
-    {
-        $var = key($this->food);
-        echo "<p>clave: $var</p>";
-        return $var;
-    }
-
-    public function next():void
-    {
-        $var = next($this->food);
-        echo "<p>siguiente: $var</p>";
-        
-    }
-
-    public function valid():bool
-    {
-        $clave = key($this->food);
-        $var = ($clave !== NULL && $clave !== FALSE);
-        echo "<p>válido: $var</p>";
-        return $var;
+        return count($this->food); 
     }
 }
