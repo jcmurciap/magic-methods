@@ -35,13 +35,25 @@ class User extends Model
     }
 
     public function eatMeal()
-    {
-        $total = $this->lunch->count();
-        
-        echo "<p>{$this->name} tiene {$total} alimentos</p>";
+    {                
+        $food = $this->lunch->filter(function ($food) {
+            return !$food->beverage;
+        });
 
-        foreach ($this->lunch as $food) {
-            echo "<p>{$this->name} eats {$food}</p>";            
+        $beverages = $this->lunch->filter(function ($food) {
+            return $food->beverage;
+        });
+        
+        echo "<p>{$this->name} tiene {$this->lunch->count()} alimentos</p>";
+        
+        echo "<p>{$this->name} tiene {$beverages->count()} bebidas</p>";
+
+        foreach ($food as $item) {
+            echo "<p>{$this->name} come {$item->name}</p>";            
+        }
+
+        foreach ($beverages as $item) {
+            echo "<p>{$this->name} toma {$item->name}</p>";            
         }
     }
 }
