@@ -1,40 +1,29 @@
 <?php
 
-class Time {
-    protected $time = null;
-
-    public function __construct($time = null)
+class Person {
+    
+    public $name;
+    
+    public $online = false;
+    
+    public function __construct($name)
     {
-        
-        $this->time = $time ?: time(); // Elvis operator
-    }
-
-    public function __toString()
-    {
-        return date('d/m/Y H:i:s', $this->time);
-    }
-
-    public function tomorrow()
-    {
-        return new Time($this->time + 24*60*60);
-    }
-
-    public function yesterday()
-    {
-        return new Time($this->time - 24*60*60);        
+        $this->name = $name;
     }
 }
 
-$today = new Time();
+// Es mejor verificar si dos objetos son iguales verificando una
+// propiedad de la instancia de clase.
 
-$today2 = new Time();
+$camilo = new Person("Camilo");
+$camilo->id = 1;
+$camilo->online = true;
 
-if ($today==$today2) { // VERDADERO
-    echo "VERDADERO";
-}else {
-    echo "FALSO";
+$camilo2 = new Person("Camilo");
+$camilo2->id = 1;
+
+if ($camilo->id == $camilo2->id) {
+    echo "TRUE";
+} else {
+    echo "FALSE";
 }
-// Un objeto se considera igual a otro si pertenecen a la misma clase
-// con las mismas propiedades y metodos, si la comparación se hace entre una clase 
-// clase padre e hijo serán objetos distintos.
-
