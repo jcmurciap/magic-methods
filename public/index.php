@@ -1,26 +1,40 @@
 <?php
 
-namespace Magic\Magic;
-require '../vendor/autoload.php';
+class Time {
+    protected $time = null;
 
-$gordon = new User(['name' => 'Gordon']);
+    public function __construct($time = null)
+    {
+        
+        $this->time = $time ?: time(); // Elvis operator
+    }
 
-//daughters
-$joanie = new User(['name' => 'Joanie']);
+    public function __toString()
+    {
+        return date('d/m/Y H:i:s', $this->time);
+    }
 
-$lunchBox = new LunchBox(['Sandwich','Papas','Jugo de naranja','Manzana']);
+    public function tomorrow()
+    {
+        return new Time($this->time + 24*60*60);
+    }
 
-$lunchBox = new LunchBox([
-    new Food(['name' => 'Sandwich', 'beverage' => false]),
-    new Food(['name' => 'Papas']),
-    new Food(['name' => 'Jugo de naranja', 'beverage' => true]),
-    new Food(['name' => 'Manzana', 'beverage' => false]),
-    new Food(['name' => 'Agua', 'beverage' => true]),
-]);
+    public function yesterday()
+    {
+        return new Time($this->time - 24*60*60);        
+    }
+}
 
-// Paso por valor
-$joanie->setLunch($lunchBox);
+$today = new Time();
 
-// School
-$joanie->eatMeal();
+$today2 = new Time();
+
+if ($today==$today2) { // VERDADERO
+    echo "VERDADERO";
+}else {
+    echo "FALSO";
+}
+// Un objeto se considera igual a otro si pertenecen a la misma clase
+// con las mismas propiedades y metodos, si la comparación se hace entre una clase 
+// clase padre e hijo serán objetos distintos.
 
