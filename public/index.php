@@ -1,29 +1,60 @@
 <?php
 
-class Person {
-    
-    public $name;
-    
-    public $online = false;
-    
-    public function __construct($name)
+/**
+ * TRAITS
+ * Permite usar metodos y propiedades en mas de una clase
+*/
+
+trait CanShootArrows
+{
+    public function shootArrow()
     {
-        $this->name = $name;
+        echo "<p>Disparó una flecha</p>";
     }
 }
 
-// Es mejor verificar si dos objetos son iguales verificando una
-// propiedad de la instancia de clase.
-
-$camilo = new Person("Camilo");
-$camilo->id = 1;
-$camilo->online = true;
-
-$camilo2 = new Person("Camilo");
-$camilo2->id = 1;
-
-if ($camilo->id == $camilo2->id) {
-    echo "TRUE";
-} else {
-    echo "FALSE";
+trait CanRide
+{
+    public function move()
+    {
+        echo "<p>Cabalgó</p>";
+    }
 }
+
+
+trait CanPerformBasicAction
+{
+    public function move()
+    {
+        echo "<p>Caminó</p>";
+    }
+}
+class Knight
+{
+    use CanRide;
+}
+
+class Archer 
+{
+    use CanShootArrows;
+}
+
+// Unit -> CanRide -> MountedArcher
+class MountedArcher
+{
+    use CanRide, CanShootArrows, CanPerformBasicAction {
+        CanPerformBasicAction::move insteadOf CanRide;
+        CanRide::move as ride;
+        CanPerformBasicAction::move as BasicMove;
+    }
+
+    // public function move()
+    // {
+    //     echo "<p>Riding</p>";
+    // }
+}
+
+$mountedArcher = new MountedArcher();
+$mountedArcher->BasicMove(); // Caminó
+$mountedArcher->ride(); // Cabalgó
+
