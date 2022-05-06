@@ -7,9 +7,16 @@
 
 trait CanShootArrows
 {
+    //public $arrows = 50; // No es posible sobre-escribir PROPIEDADES
+    
     public function shootArrow()
     {
         echo "<p>Disparó una flecha</p>";
+    }
+
+    public function getArrows() // Se puede dejar abstracto e implementar en MountedArcher
+    {
+        return $this->arrows ?? 100;
     }
 }
 
@@ -42,19 +49,11 @@ class Archer
 // Unit -> CanRide -> MountedArcher
 class MountedArcher
 {
-    use CanRide, CanShootArrows, CanPerformBasicAction {
-        CanPerformBasicAction::move insteadOf CanRide;
-        CanRide::move as ride;
-        CanPerformBasicAction::move as BasicMove;
-    }
-
-    // public function move()
-    // {
-    //     echo "<p>Riding</p>";
-    // }
+    use CanRide, CanShootArrows;
+    
+    public $arrows = 10; // No se puede sobre-escribir propiedades
 }
 
 $mountedArcher = new MountedArcher();
-$mountedArcher->BasicMove(); // Caminó
-$mountedArcher->ride(); // Cabalgó
-
+$mountedArcher->move(); // Cabalgó
+echo "{$mountedArcher->getArrows()}";
