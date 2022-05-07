@@ -1,59 +1,16 @@
 <?php
 
-/**
- * TRAITS
- * Permite usar metodos y propiedades en mas de una clase
-*/
+require "../vendor/autoload.php";
+require "../vendor/laravel/Macroable.php";
+require "../vendor/laravel/HtmlBuilder.php";
 
-trait CanShootArrows
-{
-    //public $arrows = 50; // No es posible sobre-escribir PROPIEDADES
-    
-    public function shootArrow()
-    {
-        echo "<p>Disparó una flecha</p>";
-    }
+use Laravel\HtmlBuilder;
 
-    public function getArrows() // Se puede dejar abstracto e implementar en MountedArcher
-    {
-        return $this->arrows ?? 100;
-    }
-}
+HtmlBuilder::macro('success', function ($message) {
+    return "<p style=\"background-color: #dff0d8; border-color: #d0e9c6; color: #3c763d; padding: 10px\">{$message}</p>" . $this->hr() . $this->hr2();
+});
 
-trait CanRide
-{
-    public function move()
-    {
-        echo "<p>Cabalgó</p>";
-    }
-}
+$html = new HtmlBuilder();
 
+echo $html->success('Estoy aprendiendo PHP');
 
-trait CanPerformBasicAction
-{
-    public function move()
-    {
-        echo "<p>Caminó</p>";
-    }
-}
-class Knight
-{
-    use CanRide;
-}
-
-class Archer 
-{
-    use CanShootArrows;
-}
-
-// Unit -> CanRide -> MountedArcher
-class MountedArcher
-{
-    use CanRide, CanShootArrows;
-    
-    public $arrows = 10; // No se puede sobre-escribir propiedades
-}
-
-$mountedArcher = new MountedArcher();
-$mountedArcher->move(); // Cabalgó
-echo "{$mountedArcher->getArrows()}";
